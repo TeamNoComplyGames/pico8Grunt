@@ -3,6 +3,7 @@ module.exports = function(grunt) {
   //Define our source code files path
   var srcPath = 'src/**/*.lua';
   var cartCodePath = 'luaCartCode.lua';
+  var buildTasks = ['concat', 'replace:noComments', 'replace:noEmptyLines', 'replace:pico'];
 
   // Project configuration.
   grunt.initConfig({
@@ -14,6 +15,28 @@ module.exports = function(grunt) {
       },
     },
     replace: {
+      noComments: {
+        src: [cartCodePath],
+        dest: cartCodePath,
+        replacements: [{
+          from: /--.*/g,
+          to: function (matchedContent) {
+            return '';
+          }
+        }]
+      },
+      noEmptyLines: {
+        src: [cartCodePath],
+        dest: cartCodePath,
+        replacements: [{
+          from: /^\s*$\n/gm,
+          to: function (matchedContent) {
+            // The above regex matches empty lines, and the \n that creates the next one
+            // Which allows us to remove the preceeding \n
+            return '';
+          }
+        }]
+      },
       pico: {
         src: ['cart.p8'],
         dest: 'cart.p8',
@@ -33,7 +56,7 @@ module.exports = function(grunt) {
     watch: {
       pico: {
         files: [srcPath],
-        tasks: ['concat', 'replace'],
+        tasks: buildTasks,
         options: {
           spawn: false,
         }
@@ -52,8 +75,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
 
   // Register our tasks
-  grunt.registerTask('default', ['concat', 'replace']);
-  grunt.registerTask('build', ['concat', 'replace']);
+  grunt.registerTask('default', buildTasks);
+  grunt.registerTask('build', buildTasks);
   //Alternative for 'grunt watch'
   grunt.registerTask('serve', ['watch']);
 
