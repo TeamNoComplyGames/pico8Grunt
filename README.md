@@ -11,7 +11,7 @@ pico8Grunt is a very simple build system utilizing grunt to make writing code fo
 
 2. Install [grunt-cli](http://gruntjs.com/getting-started)
 
-3. Download, or `git clone` this project.
+3. Download this project as a zip, and extract in your desired location.
 
 4. Run `npm install` inside of the project
 
@@ -21,4 +21,6 @@ pico8Grunt is a very simple build system utilizing grunt to make writing code fo
 
 7. run `grunt` to build the code into the cart, or use `grunt watch` to watch the .lua files and automatically build them
 
-8. Within pico8, navigate to the project, and run `load cart.p8`, and then enter `run`, and the cart should work great!
+8. Within pico8, navigate to the project, and run `load cart.p8`, and then enter `run`, and the cart should work great! **Note:** If you make any art/audio changes to the project, you should run `save cart.p8` before running load again. You could lose your changes!
+
+**If you would like to try the project first, it already has a "Hello world" that you can play with :)**
