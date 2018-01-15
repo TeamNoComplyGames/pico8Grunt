@@ -3,7 +3,16 @@ module.exports = function(grunt) {
   //Define our source code files path
   var srcPath = 'src/**/*.lua';
   var cartCodePath = 'luaCartCode.lua';
-  var buildTasks = ['concat', 'replace:noComments', 'replace:noEmptyLines', 'replace:pico'];
+  var buildTasks = [
+      'concat',
+      'replace:noMultiLineComments',
+      'replace:noComments',
+      'replace:noEmptyLines',
+      'replace:operatorWhiteSpace',
+      'replace:singleSpace',
+      'replace:blockIndentation',
+      'replace:pico'
+  ];
 
   // Project configuration.
   grunt.initConfig({
@@ -25,6 +34,16 @@ module.exports = function(grunt) {
           }
         }]
       },
+      noMultiLineComments: {
+        src: [cartCodePath],
+        dest: cartCodePath,
+        replacements: [{
+          from: /(-- *\[\[)([\s\S]*?)(-- *\]\])/g,
+          to: function (matchedContent) {
+            return '';
+          }
+        }]
+      },
       noEmptyLines: {
         src: [cartCodePath],
         dest: cartCodePath,
@@ -34,6 +53,39 @@ module.exports = function(grunt) {
             // The above regex matches empty lines, and the \n that creates the next one
             // Which allows us to remove the preceeding \n
             return '';
+          }
+        }]
+      },
+      operatorWhiteSpace: {
+        src: [cartCodePath],
+        dest: cartCodePath,
+        replacements: [{
+          from: /\s*[,+=><\-*/]+\s/g,
+          to: function (matchedContent) {
+            // Return the matched content without spaces
+            return matchedContent.replace(/\s/g, '');
+          }
+        }]
+      },
+      singleSpace: {
+        src: [cartCodePath],
+        dest: cartCodePath,
+        replacements: [{
+          from: /  +/g,
+          to: function (matchedContent) {
+            // Return the matched content without spaces
+            return matchedContent.replace(/  +/g, ' ');
+          }
+        }]
+      },
+      blockIndentation: {
+        src: [cartCodePath],
+        dest: cartCodePath,
+        replacements: [{
+          from: /\n\s+/g,
+          to: function (matchedContent) {
+            // Return the matched content without spaces
+            return matchedContent.replace(/\n\s+/g, '\n');
           }
         }]
       },
