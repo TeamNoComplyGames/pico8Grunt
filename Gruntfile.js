@@ -1,3 +1,9 @@
+// pico8Grunt
+// https://github.com/TeamNoComplyGames/pico8Grunt
+// by @torch2424
+// LICENSE: Apache 2.0
+// https://oss.ninja/apache-2.0/torch2424
+
 module.exports = function(grunt) {
 
   //Define our source code files path
